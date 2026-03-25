@@ -9,7 +9,7 @@ const experiences = [
   {
     role: "Research Associate",
     company: "Qiro Finance",
-    period: "Jul 2024 - Mar 2025",
+    period: "Jul 2024 - Mar 2026",
     bullets: [
       "Owned the full research pipeline; authored technical research reports and managed outreach to bring in new deal flows, most notably Huma Finance.",
       "Scaled research content: 1,000+ Substack subscribers, 15,000+ Twitter followers for DeFi deep dives.",
