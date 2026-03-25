@@ -9,7 +9,7 @@ const experiences = [
   {
     role: "Research Associate",
     company: "Qiro Finance",
-    period: "Jul 2025 - Present",
+    period: "Jul 2024 - Mar 2025",
     bullets: [
       "Owned the full research pipeline; authored technical research reports and managed outreach to bring in new deal flows, most notably Huma Finance.",
       "Scaled research content: 1,000+ Substack subscribers, 15,000+ Twitter followers for DeFi deep dives.",
@@ -190,9 +190,8 @@ export default function Home() {
         </Section>
 
         {/* Footer */}
-        <footer className="mt-16 pt-8 border-t border-[var(--color-border)] text-xs text-[var(--color-muted)] flex justify-between">
+        <footer className="mt-16 pt-8 border-t border-[var(--color-border)] text-xs text-[var(--color-muted)]">
           <span>&copy; {new Date().getFullYear()} Siddharth Singh</span>
-          <span>built with intention</span>
         </footer>
       </div>
     </main>
