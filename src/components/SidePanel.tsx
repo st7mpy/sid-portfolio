@@ -70,8 +70,7 @@ export default function SidePanel() {
           </div>
 
           <p className="text-sm text-[var(--color-muted)] mb-8 leading-relaxed">
-            Work is one dimension. Here&apos;s the rest of the operating
-            system.
+            There&apos;s a lot more to me than making money, have a look.
           </p>
 
           <div className="space-y-0">
