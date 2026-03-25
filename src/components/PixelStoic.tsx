@@ -15,11 +15,10 @@ interface Star {
 }
 
 function createStar(width: number, height: number): Star {
-  const angle = (Math.random() * 30 + 15) * (Math.PI / 180); // 15–45 deg downward
+  const angle = (Math.random() * 30 + 15) * (Math.PI / 180);
   const speed = Math.random() * 4 + 3;
   const maxLife = Math.random() * 60 + 60;
 
-  // Start from top or left edges
   const fromTop = Math.random() > 0.4;
   const x = fromTop ? Math.random() * width : -10;
   const y = fromTop ? -10 : Math.random() * height * 0.5;
@@ -56,16 +55,25 @@ export default function ShootingStars() {
     const stars: Star[] = [];
     let frameCount = 0;
 
-    // Spawn initial stars staggered
     for (let i = 0; i < 4; i++) {
       const s = createStar(width, height);
       s.life = Math.floor(Math.random() * s.maxLife);
       stars.push(s);
     }
 
+    function getStarColor() {
+      const isDark = document.documentElement.classList.contains("dark");
+      return isDark ? "255,255,255" : "0,0,0";
+    }
+
+    function getGridColor() {
+      const isDark = document.documentElement.classList.contains("dark");
+      return isDark ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.012)";
+    }
+
     function drawGrid() {
       if (!ctx) return;
-      ctx.strokeStyle = "rgba(0,0,0,0.012)";
+      ctx.strokeStyle = getGridColor();
       ctx.lineWidth = 1;
       const g = 48;
       for (let x = 0; x < width; x += g) {
@@ -78,8 +86,8 @@ export default function ShootingStars() {
 
     function drawStar(star: Star) {
       if (!ctx) return;
+      const rgb = getStarColor();
       const progress = star.life / star.maxLife;
-      // Fade in first 20%, full opacity middle, fade out last 30%
       let alpha = star.opacity;
       if (progress < 0.2) alpha *= progress / 0.2;
       else if (progress > 0.7) alpha *= (1 - progress) / 0.3;
@@ -88,9 +96,9 @@ export default function ShootingStars() {
       const tailY = star.y - (star.vy / star.speed) * star.length;
 
       const grad = ctx.createLinearGradient(tailX, tailY, star.x, star.y);
-      grad.addColorStop(0, `rgba(0,0,0,0)`);
-      grad.addColorStop(0.7, `rgba(0,0,0,${alpha * 0.4})`);
-      grad.addColorStop(1, `rgba(0,0,0,${alpha})`);
+      grad.addColorStop(0, `rgba(${rgb},0)`);
+      grad.addColorStop(0.7, `rgba(${rgb},${alpha * 0.4})`);
+      grad.addColorStop(1, `rgba(${rgb},${alpha})`);
 
       ctx.beginPath();
       ctx.moveTo(tailX, tailY);
@@ -99,10 +107,9 @@ export default function ShootingStars() {
       ctx.lineWidth = 1.5;
       ctx.stroke();
 
-      // Leading pixel dot
       ctx.beginPath();
       ctx.arc(star.x, star.y, 1.2, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(0,0,0,${alpha})`;
+      ctx.fillStyle = `rgba(${rgb},${alpha})`;
       ctx.fill();
     }
 
@@ -111,7 +118,6 @@ export default function ShootingStars() {
       ctx.clearRect(0, 0, width, height);
       drawGrid();
 
-      // Spawn a new star every ~90 frames
       if (frameCount % 90 === 0) {
         stars.push(createStar(width, height));
       }
@@ -123,13 +129,11 @@ export default function ShootingStars() {
         s.life++;
         drawStar(s);
 
-        // Remove if off-screen or past max life
         if (s.life > s.maxLife || s.x > width + 150 || s.y > height + 150) {
           stars.splice(i, 1);
         }
       }
 
-      // Keep between 3–5 stars alive
       if (stars.length < 3) stars.push(createStar(width, height));
 
       frameCount++;

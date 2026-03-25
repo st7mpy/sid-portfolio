@@ -2,6 +2,8 @@ import Section from "@/components/Section";
 import ExperienceCard from "@/components/ExperienceCard";
 import SidePanel from "@/components/SidePanel";
 import ShootingStars from "@/components/PixelStoic";
+import ThemeToggle from "@/components/ThemeToggle";
+import EducationCard from "@/components/EducationCard";
 
 const experiences = [
   {
@@ -11,12 +13,12 @@ const experiences = [
     bullets: [
       "Owned the full research pipeline; authored technical research reports and managed outreach to bring in new deal flows, most notably Huma Finance.",
       "Scaled research content: 1,000+ Substack subscribers, 15,000+ Twitter followers for DeFi deep dives.",
-      "Led qualitative/quantitative analysis for Qiro's mainnet launch; built curated investor funnels to onboard deal flows.",
+      "Led qualitative/quantitative analysis for Qiro\u2019s mainnet launch; built curated investor funnels to onboard deal flows.",
       "Conducted on-chain analysis and asset onboarding research for tokenized private credit and RWA integrations.",
     ],
   },
   {
-    role: "Founders' Office",
+    role: "Founders\u2019 Office",
     company: "0xBridge",
     period: "Oct 2024 - May 2025",
     bullets: [
@@ -45,24 +47,13 @@ const experiences = [
   },
 ];
 
-const publications = [
+const education = [
   {
-    title: "Web3 Security Investment Thesis",
-    platform: "Medium",
-    date: "Sep 2024",
-    desc: "Analysis of security challenges and opportunities in the Web3 ecosystem.",
-  },
-  {
-    title: "zkEVM's and Why Does Ethereum Need It?",
-    platform: "Medium",
-    date: "Apr 2023",
-    desc: "Primer on zkEVMs for scalability and security in Ethereum.",
-  },
-  {
-    title: "A Beginner's Overview of the ERC-4437 Token",
-    platform: "Medium",
-    date: "Mar 2023",
-    desc: "Summary of ERC-4437 and EIP process in the Web3 ecosystem.",
+    degree: "B.Tech, Computer Science",
+    spec: "Blockchain Specialization",
+    institution: "SRM Institute of Science and Technology, Chennai",
+    period: "2022 - 2026",
+    details: "GPA: 8.0/10",
   },
 ];
 
@@ -70,6 +61,7 @@ export default function Home() {
   return (
     <main className="relative min-h-screen">
       <ShootingStars />
+      <ThemeToggle />
       <SidePanel />
 
       <div className="relative z-10 max-w-2xl mx-auto px-6 py-16 sm:py-24">
@@ -78,18 +70,18 @@ export default function Home() {
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3 cursor-blink">
             Siddharth Singh
           </h1>
-          <p className="text-sm text-[#666] leading-relaxed max-w-lg">
+          <p className="text-sm text-[var(--color-muted)] leading-relaxed max-w-lg">
             Operator at the intersection of venture research, decentralized
             finance, and getting a startup from 0&rarr;1.
           </p>
-          <p className="text-xs text-[#999] mt-2 italic">
-            tldr — &quot;cool research guy&quot;
+          <p className="text-xs text-[var(--color-muted)] mt-2 italic opacity-60">
+            tldr &mdash; &quot;cool research guy&quot;
           </p>
 
           <div className="flex flex-wrap gap-4 sm:gap-6 mt-6 text-xs">
             <a
               href="mailto:siddharth77work@gmail.com"
-              className="text-[#666] hover:text-[#111] transition-colors underline underline-offset-4 decoration-[#ddd] hover:decoration-[#111]"
+              className="text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition-colors underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-foreground)]"
             >
               email
             </a>
@@ -97,25 +89,33 @@ export default function Home() {
               href="https://twitter.com/s7ddharth"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#666] hover:text-[#111] transition-colors underline underline-offset-4 decoration-[#ddd] hover:decoration-[#111]"
+              className="text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition-colors underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-foreground)]"
             >
               twitter
             </a>
             <a
-              href="https://linkedin.com/in/siddharth-singh"
+              href="https://www.linkedin.com/in/siddharth-singh-aa9453260/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#666] hover:text-[#111] transition-colors underline underline-offset-4 decoration-[#ddd] hover:decoration-[#111]"
+              className="text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition-colors underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-foreground)]"
             >
               linkedin
             </a>
             <a
-              href="https://substack.com/@s7ddharth"
+              href="https://substack.com/@s1ddharths1ngh"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#666] hover:text-[#111] transition-colors underline underline-offset-4 decoration-[#ddd] hover:decoration-[#111]"
+              className="text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition-colors underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-foreground)]"
             >
               substack
+            </a>
+            <a
+              href="https://medium.com/@siddharth77work"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition-colors underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-foreground)]"
+            >
+              medium
             </a>
           </div>
         </header>
@@ -138,12 +138,12 @@ export default function Home() {
               <span className="font-bold">
                 AI Agent for Smart Contract Auditing
               </span>
-              <span className="text-xs text-[#999] mt-1 sm:mt-0">
+              <span className="text-xs text-[var(--color-muted)] mt-1 sm:mt-0">
                 In Progress
               </span>
             </div>
-            <p className="text-sm text-[#444] leading-relaxed pl-4">
-              <span className="text-[#999] mr-2">-</span>
+            <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed pl-4">
+              <span className="text-[var(--color-muted)] mr-2">-</span>
               Trained LoRA model for contract vulnerability detection, trained
               on Trail of Bits&apos; security data.
             </p>
@@ -152,49 +152,28 @@ export default function Home() {
 
         <hr className="hr-styled" />
 
-        {/* Writing */}
-        <Section title="Writing" delay={3}>
-          <div className="space-y-6">
-            {publications.map((pub, i) => (
-              <div key={i}>
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1">
-                  <span className="font-bold text-sm">{pub.title}</span>
-                  <span className="text-xs text-[#999] mt-1 sm:mt-0 shrink-0">
-                    {pub.platform} / {pub.date}
-                  </span>
-                </div>
-                <p className="text-sm text-[#444] leading-relaxed">
-                  {pub.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        <hr className="hr-styled" />
-
         {/* Skills */}
-        <Section title="Tools & Skills" delay={4}>
+        <Section title="Tools & Skills" delay={3}>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm">
             <div>
-              <h3 className="text-xs font-bold text-[#999] mb-2 tracking-wider">
+              <h3 className="text-xs font-bold text-[var(--color-muted)] mb-2 tracking-wider">
                 LANGUAGES
               </h3>
-              <p className="text-[#444]">Python, Solidity</p>
+              <p className="text-[var(--color-text-secondary)]">Python, Solidity</p>
             </div>
             <div>
-              <h3 className="text-xs font-bold text-[#999] mb-2 tracking-wider">
+              <h3 className="text-xs font-bold text-[var(--color-muted)] mb-2 tracking-wider">
                 TOOLS
               </h3>
-              <p className="text-[#444]">
+              <p className="text-[var(--color-text-secondary)]">
                 Foundry, Dune Analytics, Nansen, Figma, MySQL, MongoDB
               </p>
             </div>
             <div>
-              <h3 className="text-xs font-bold text-[#999] mb-2 tracking-wider">
+              <h3 className="text-xs font-bold text-[var(--color-muted)] mb-2 tracking-wider">
                 DOMAINS
               </h3>
-              <p className="text-[#444]">
+              <p className="text-[var(--color-text-secondary)]">
                 Smart Contract Auditing, ML for Trading, Tokenomics
               </p>
             </div>
@@ -204,28 +183,14 @@ export default function Home() {
         <hr className="hr-styled" />
 
         {/* Education */}
-        <Section title="Education" delay={5}>
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline">
-            <div>
-              <span className="font-bold">
-                B.Tech, Computer Science
-              </span>
-              <span className="text-[#666]">
-                {" "}
-                — Blockchain Specialization
-              </span>
-            </div>
-            <span className="text-xs text-[#999] mt-1 sm:mt-0 shrink-0">
-              2022 - 2026
-            </span>
-          </div>
-          <p className="text-sm text-[#444] mt-1">
-            SRM Institute of Science and Technology, Chennai — GPA: 8.0/10
-          </p>
+        <Section title="Education" delay={4}>
+          {education.map((edu, i) => (
+            <EducationCard key={i} {...edu} />
+          ))}
         </Section>
 
         {/* Footer */}
-        <footer className="mt-16 pt-8 border-t border-[#e5e5e5] text-xs text-[#999] flex justify-between">
+        <footer className="mt-16 pt-8 border-t border-[var(--color-border)] text-xs text-[var(--color-muted)] flex justify-between">
           <span>&copy; {new Date().getFullYear()} Siddharth Singh</span>
           <span>built with intention</span>
         </footer>

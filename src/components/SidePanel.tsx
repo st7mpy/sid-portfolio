@@ -7,7 +7,7 @@ const interests = [
     title: "Reading",
     icon: "//",
     content:
-      "Drawn to existentialism and war history — the questions that don't have clean answers. Currently reading Thus Spoke Zarathustra and Our Mathematical Universe.",
+      "Drawn to existentialism and war history \u2014 the questions that don\u2019t have clean answers. Currently reading Thus Spoke Zarathustra and Our Mathematical Universe.",
   },
   {
     title: "Football",
@@ -45,14 +45,14 @@ export default function SidePanel() {
       {/* Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/20 z-40 backdrop-blur-[2px]"
+          className="fixed inset-0 bg-[var(--color-backdrop)] z-40 backdrop-blur-[2px]"
           onClick={() => setIsOpen(false)}
         />
       )}
 
       {/* Panel */}
       <div
-        className={`fixed top-0 right-0 h-full w-full max-w-md bg-[#fafafa] border-l border-[#e5e5e5] z-50 side-panel ${
+        className={`fixed top-0 right-0 h-full w-full max-w-md bg-[var(--color-background)] border-l border-[var(--color-border)] z-50 side-panel ${
           isOpen ? "open" : ""
         } overflow-y-auto`}
       >
@@ -69,14 +69,14 @@ export default function SidePanel() {
             </button>
           </div>
 
-          <p className="text-sm text-[#666] mb-8 leading-relaxed">
+          <p className="text-sm text-[var(--color-muted)] mb-8 leading-relaxed">
             Work is one dimension. Here&apos;s the rest of the operating
             system.
           </p>
 
           <div className="space-y-0">
             {interests.map((interest, i) => (
-              <div key={i} className="border-t border-[#e5e5e5]">
+              <div key={i} className="border-t border-[var(--color-border)]">
                 <button
                   onClick={() =>
                     setOpenAccordion(openAccordion === i ? null : i)
@@ -95,23 +95,23 @@ export default function SidePanel() {
                     openAccordion === i ? "open" : ""
                   }`}
                 >
-                  <p className="text-sm text-[#666] pb-4 leading-relaxed">
+                  <p className="text-sm text-[var(--color-muted)] pb-4 leading-relaxed">
                     {interest.content}
                   </p>
                 </div>
               </div>
             ))}
-            <div className="border-t border-[#e5e5e5]" />
+            <div className="border-t border-[var(--color-border)]" />
           </div>
 
-          <div className="mt-12 text-xs text-[#999] italic leading-relaxed">
+          <div className="mt-12 text-xs text-[var(--color-muted)] italic leading-relaxed">
             <p>
               &quot;karmanye vadhikaraste ma phaleshu kadachana&quot;
             </p>
             <p className="mt-1">
               You have the right to work only, but never to its fruits.
             </p>
-            <p className="mt-2 not-italic text-[#bbb]">
+            <p className="mt-2 not-italic opacity-50">
               — Bhagavad Gita, Chapter 2, Verse 47
             </p>
           </div>
