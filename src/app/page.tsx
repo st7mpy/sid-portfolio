@@ -75,7 +75,7 @@ export default function Home() {
             finance, and getting a startup from 0&rarr;1.
           </p>
           <p className="text-xs text-[var(--color-muted)] mt-2 italic opacity-60">
-            tldr &mdash; &quot;cool research guy&quot;
+            tldr &mdash; &quot;research guy&quot;
           </p>
 
           <div className="flex flex-wrap gap-4 sm:gap-6 mt-6 text-xs">
