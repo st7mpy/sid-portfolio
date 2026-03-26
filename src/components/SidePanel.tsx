@@ -28,25 +28,22 @@ const interests = [
   },
 ];
 
-export default function SidePanel() {
-  const [isOpen, setIsOpen] = useState(false);
+export default function SidePanel({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) {
   const [openAccordion, setOpenAccordion] = useState<number | null>(null);
 
   return (
     <>
-      {/* Trigger button */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className="fixed top-6 right-6 z-40 text-sm tracking-wider hover:opacity-60 transition-opacity cursor-pointer"
-      >
-        [ beyond work ]
-      </button>
-
       {/* Backdrop */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-[var(--color-backdrop)] z-40 backdrop-blur-[2px]"
-          onClick={() => setIsOpen(false)}
+          onClick={onClose}
         />
       )}
 
@@ -62,7 +59,7 @@ export default function SidePanel() {
               beyond the resume_
             </h2>
             <button
-              onClick={() => setIsOpen(false)}
+              onClick={onClose}
               className="text-sm hover:opacity-60 transition-opacity cursor-pointer"
             >
               [ close ]

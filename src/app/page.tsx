@@ -1,8 +1,11 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Section from "@/components/Section";
 import ExperienceCard from "@/components/ExperienceCard";
 import SidePanel from "@/components/SidePanel";
 import ShootingStars from "@/components/PixelStoic";
-import ThemeToggle from "@/components/ThemeToggle";
+import Navbar from "@/components/Navbar";
 import EducationCard from "@/components/EducationCard";
 
 const experiences = [
@@ -58,13 +61,43 @@ const education = [
 ];
 
 export default function Home() {
+  const [isDark, setIsDark] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("theme");
+    if (
+      saved === "dark" ||
+      (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      setIsDark(true);
+      document.documentElement.classList.add("dark");
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const next = !isDark;
+    setIsDark(next);
+    if (next) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  };
+
   return (
     <main className="relative min-h-screen">
       <ShootingStars />
-      <ThemeToggle />
-      <SidePanel />
+      <Navbar
+        onToggleTheme={toggleTheme}
+        isDark={isDark}
+        onOpenPanel={() => setPanelOpen(true)}
+      />
+      <SidePanel isOpen={panelOpen} onClose={() => setPanelOpen(false)} />
 
-      <div className="relative z-10 max-w-2xl mx-auto px-6 py-16 sm:py-24">
+      <div className="relative z-10 max-w-2xl mx-auto px-6 pt-20 pb-16 sm:pt-28 sm:pb-24">
         {/* Header */}
         <header className="mb-16 fade-up">
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3 cursor-blink">
