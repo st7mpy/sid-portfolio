@@ -185,7 +185,7 @@ export default function Home() {
           <div className="mb-6">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-2">
               <a
-                href="https://defigrail.vercel.app"
+                href="https://defigrail.xyz"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-bold underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-foreground)] transition-colors"
