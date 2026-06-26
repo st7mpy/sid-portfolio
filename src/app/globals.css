@@ -140,28 +140,3 @@ body {
   border-top: 1px solid var(--color-border);
   margin: 2rem 0;
 }
-
-/* Ambient hero dither — slow Ken Burns drift so the dithered artwork breathes */
-@keyframes heroDriftKen {
-  0% {
-    transform: scale(1.04) translate3d(0, 0, 0);
-  }
-  50% {
-    transform: scale(1.1) translate3d(-1.5%, -1.5%, 0);
-  }
-  100% {
-    transform: scale(1.04) translate3d(0, 0, 0);
-  }
-}
-
-.hero-dither-drift {
-  animation: heroDriftKen 38s ease-in-out infinite;
-  transform-origin: 42% 38%;
-  will-change: transform;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-dither-drift {
-    animation: none;
-  }
-}

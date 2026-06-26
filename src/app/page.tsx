@@ -7,7 +7,6 @@ import SidePanel from "@/components/SidePanel";
 import ShootingStars from "@/components/PixelStoic";
 import Navbar from "@/components/Navbar";
 import EducationCard from "@/components/EducationCard";
-import HeroDither from "@/components/HeroDither";
 
 const experiences = [
   {
@@ -91,8 +90,6 @@ export default function Home() {
   return (
     <main className="relative min-h-screen">
       <ShootingStars />
-      {/* Ambient dithered Starry Night behind the hero */}
-      <HeroDither isDark={isDark} />
       <Navbar
         onToggleTheme={toggleTheme}
         isDark={isDark}
