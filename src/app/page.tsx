@@ -7,6 +7,7 @@ import SidePanel from "@/components/SidePanel";
 import ShootingStars from "@/components/PixelStoic";
 import Navbar from "@/components/Navbar";
 import EducationCard from "@/components/EducationCard";
+import HeroDither from "@/components/HeroDither";
 
 const experiences = [
   {
@@ -90,6 +91,8 @@ export default function Home() {
   return (
     <main className="relative min-h-screen">
       <ShootingStars />
+      {/* Ambient dithered Starry Night behind the hero */}
+      <HeroDither isDark={isDark} />
       <Navbar
         onToggleTheme={toggleTheme}
         isDark={isDark}
@@ -179,6 +182,43 @@ export default function Home() {
               <span className="text-[var(--color-muted)] mr-2">-</span>
               Trained LoRA model for contract vulnerability detection, trained
               on Trail of Bits&apos; security data.
+            </p>
+          </div>
+
+          <div className="mb-6">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-2">
+              <a
+                href="https://defigrail.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-foreground)] transition-colors"
+              >
+                DeFiGrail
+              </a>
+              <span className="text-xs text-[var(--color-muted)] mt-1 sm:mt-0">
+                Live
+              </span>
+            </div>
+            <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed pl-4">
+              <span className="text-[var(--color-muted)] mr-2">-</span>
+              Interactive DeFi learning platform &mdash; 50+ deep-dive topics,
+              structured tracks, a 70+ term glossary, and hands-on playgrounds
+              for AMM math and impermanent loss. Built with Next.js and Neon.
+            </p>
+          </div>
+
+          <div className="mb-6">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-2">
+              <span className="font-bold">Bettr</span>
+              <span className="text-xs text-[var(--color-muted)] mt-1 sm:mt-0">
+                In Progress
+              </span>
+            </div>
+            <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed pl-4">
+              <span className="text-[var(--color-muted)] mr-2">-</span>
+              AI cold-email engine &mdash; researches each lead, drafts
+              personalised outreach with Claude, and auto-manages replies
+              through a quota-aware sending scheduler.
             </p>
           </div>
         </Section>
