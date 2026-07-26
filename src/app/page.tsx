@@ -10,6 +10,12 @@ import EducationCard from "@/components/EducationCard";
 
 const experiences = [
   {
+    role: "Research Intern",
+    company: "IOSG Ventures",
+    period: "Aug 2026 - Present",
+    bullets: [],
+  },
+  {
     role: "Research Associate",
     company: "Qiro Finance",
     period: "Jul 2025 - Mar 2026",
