@@ -140,6 +140,7 @@ export default function AsciiCards() {
     const font = `9px ${family}`;
     const BIG = 15; // px, corner rank/suit size
     ctx.font = font;
+    ctx.textBaseline = "top";
     const cw = ctx.measureText("M").width, ch = 10;
     const aspect = ch / cw;
     const dpr = window.devicePixelRatio || 1;
@@ -147,9 +148,11 @@ export default function AsciiCards() {
     canvas.height = ROWS * ch * dpr;
     canvas.style.width = `${COLS * cw}px`;
     canvas.style.height = `${ROWS * ch}px`;
+    ctx.font = font; // resizing the canvas reset the context state
+    ctx.textBaseline = "top";
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let colors = ["#888", "#888", "#888"];
+    let colors = ["#888", "#888"];
 
     // Deal state: ripple from a random origin to a random next card.
     let cur = Math.floor(Math.random() * faces.length), next = cur;
@@ -164,6 +167,27 @@ export default function AsciiCards() {
       );
     };
 
+    // Corner rank/suit labels, pre-rendered per card (and per theme) so frames never switch fonts.
+    let corners: HTMLCanvasElement[] = [];
+    const makeCorner = (card: Card) => {
+      const lines = card.rank.length > 1 ? card.rank.split("") : [card.rank, card.suit];
+      const step = card.rank.length > 1 ? BIG - 2 : BIG + 1;
+      const w = BIG + 4, h = step * (lines.length - 1) + BIG + 2;
+      const c = document.createElement("canvas");
+      c.width = w * dpr;
+      c.height = h * dpr;
+      const g = c.getContext("2d")!;
+      g.scale(dpr, dpr);
+      g.font = `bold ${BIG}px ${family}`;
+      g.textAlign = "center";
+      g.textBaseline = "top";
+      lines.forEach((l, i) => {
+        g.fillStyle = card.suit && i === 1 ? colors[1] : colors[0];
+        g.fillText(l, w / 2, i * step);
+      });
+      return c;
+    };
+
     let raf = 0, last = 0, frame = 0;
     function draw(now: number) {
       const t = now / 1000;
@@ -174,66 +198,54 @@ export default function AsciiCards() {
       }
       const p = dealing ? (t - phaseStart) / DEAL : 0;
 
-      const grad = ctx!.createLinearGradient(0, 0, COLS * cw, ROWS * ch);
-      grad.addColorStop(0, colors[0]);
-      grad.addColorStop(1, colors[1]);
-
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx!.clearRect(0, 0, COLS * cw, ROWS * ch);
-      ctx!.font = font;
-      ctx!.textBaseline = "top";
 
-      for (let y = 0; y < ROWS; y++)
+      // One fillText per row (monospace keeps columns aligned); lit wave-front cells drawn on top.
+      const lit: [number, number, string][] = [];
+      ctx!.fillStyle = colors[0];
+      for (let y = 0; y < ROWS; y++) {
+        let row = "";
         for (let x = 0; x < COLS; x++) {
-          let c: string;
-          let hi = false;
           const th = dealing ? thr[y][x] : 1;
           if (dealing && Math.abs(th - p) < BAND) {
             const n = (x * 7 + y * 13 + frame) % 23;
-            c = GLITCH[n % GLITCH.length];
-            hi = n < 3; // a few lit cells ride the wave front
+            const g = GLITCH[n % GLITCH.length];
+            if (n < 3) { lit.push([x, y, g]); row += " "; } else row += g;
           } else {
-            c = faces[th < p ? next : cur][y][x];
-          }
-          if (hi) {
-            ctx!.fillStyle = colors[2];
-            ctx!.globalAlpha = 0.35;
-            ctx!.fillRect(x * cw, y * ch, cw, ch);
-            ctx!.globalAlpha = 1;
-            ctx!.fillText(c, x * cw, y * ch);
-          } else if (c !== " ") {
-            ctx!.fillStyle = grad;
-            ctx!.fillText(c, x * cw, y * ch);
+            row += faces[th < p ? next : cur][y][x];
           }
         }
+        ctx!.fillText(row, 0, y * ch);
+      }
+      ctx!.fillStyle = colors[1];
+      for (const [x, y, g] of lit) {
+        ctx!.globalAlpha = 0.35;
+        ctx!.fillRect(x * cw, y * ch, cw, ch);
+        ctx!.globalAlpha = 1;
+        ctx!.fillText(g, x * cw, y * ch);
+      }
 
       // Big corner indices: top-left upright, bottom-right rotated like a real card.
       // Each corner shows whichever card the ripple has reached there; hidden while the wave front passes.
-      ctx!.font = `bold ${BIG}px ${family}`;
-      ctx!.textAlign = "center";
       for (const [cx, cy, rot] of [[1, 1, 0], [CW - 2, CH - 2, Math.PI]] as const) {
         const th = dealing ? thr[cy][cx] : 1;
         if (dealing && Math.abs(th - p) < BAND) continue;
-        const card = CARDS[th < p ? next : cur];
-        const lines = card.rank.length > 1 ? card.rank.split("") : [card.rank, card.suit];
-        const step = card.rank.length > 1 ? BIG - 2 : BIG + 1;
+        const img = corners[th < p ? next : cur];
+        const w = img.width / dpr, h = img.height / dpr;
         ctx!.save();
         ctx!.translate(cx * cw + cw / 2, cy * ch + (rot ? ch : 0));
         ctx!.rotate(rot);
-        lines.forEach((l, i) => {
-          ctx!.fillStyle = card.suit && i === 1 ? colors[2] : grad;
-          ctx!.fillText(l, cw / 2, i * step);
-        });
+        ctx!.drawImage(img, cw / 2 - w / 2, 0, w, h);
         ctx!.restore();
       }
-      ctx!.textAlign = "start";
-      ctx!.font = font;
       frame++;
     }
 
     const readColors = () => {
       const css = getComputedStyle(document.documentElement);
-      colors = ["--ascii-a", "--ascii-b", "--ascii-hi"].map((v) => css.getPropertyValue(v).trim() || "#888");
+      colors = ["--ascii-a", "--ascii-hi"].map((v) => css.getPropertyValue(v).trim() || "#888");
+      corners = CARDS.map(makeCorner);
       draw(performance.now());
     };
     const themeObserver = new MutationObserver(readColors);
