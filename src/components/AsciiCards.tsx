@@ -234,13 +234,20 @@ export default function AsciiCards() {
     const readColors = () => {
       const css = getComputedStyle(document.documentElement);
       colors = ["--ascii-a", "--ascii-b", "--ascii-hi"].map((v) => css.getPropertyValue(v).trim() || "#888");
-      if (reduce) draw(performance.now());
+      draw(performance.now());
     };
     const themeObserver = new MutationObserver(readColors);
     themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class"] });
 
+    // Only repaint while a deal is rippling (plus one frame to settle); a resting card is static.
+    let settled = false;
     function loop(now: number) {
-      if (now - last > 70) { draw(now); last = now; }
+      const due = now / 1000 - phaseStart > hold;
+      if (now - last > 70 && (dealing || due || !settled)) {
+        draw(now);
+        last = now;
+        settled = !dealing;
+      }
       raf = requestAnimationFrame(loop);
     }
     readColors();
