@@ -61,15 +61,10 @@ export default function ShootingStars() {
       stars.push(s);
     }
 
-    function getStarColor() {
-      const isDark = document.documentElement.classList.contains("dark");
-      return isDark ? "255,255,255" : "0,0,0";
-    }
-
-    function getGridColor() {
-      const isDark = document.documentElement.classList.contains("dark");
-      return isDark ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.012)";
-    }
+    const cssVar = (name: string) =>
+      getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    const getStarColor = () => cssVar("--color-star");
+    const getGridColor = () => cssVar("--color-grid");
 
     function drawGrid() {
       if (!ctx) return;

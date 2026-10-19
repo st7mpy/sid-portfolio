@@ -2,38 +2,51 @@
 
 import { useEffect, useState } from "react";
 import Section from "@/components/Section";
-import ExperienceCard from "@/components/ExperienceCard";
-import SidePanel from "@/components/SidePanel";
+import Collapsible from "@/components/Collapsible";
 import ShootingStars from "@/components/PixelStoic";
+import AsciiJoker from "@/components/AsciiJoker";
 import Navbar from "@/components/Navbar";
-import EducationCard from "@/components/EducationCard";
+
+const THEMES = ["dark", "cobalt"] as const;
+type Theme = (typeof THEMES)[number];
+
+const EMAIL = "siddharth77work@gmail.com";
+
+const links = [
+  ["email", `mailto:${EMAIL}`],
+  ["twitter", "https://twitter.com/s7ddharth"],
+  ["linkedin", "https://www.linkedin.com/in/siddharth-singh-aa9453260/"],
+  ["substack", "https://substack.com/@s1ddharths1ngh"],
+  ["medium", "https://medium.com/@siddharth77work"],
+];
 
 const experiences = [
   {
-    role: "Research Intern",
-    company: "IOSG Ventures",
+    role: "Research Intern · currently working",
+    company: "IOSG / IOSF",
     period: "Aug 2026 - Present",
-    bullets: [],
+    bullets: [
+      "Helping deploy capital into the technologies shaping the frontier.",
+      "Companies backed: TBA",
+    ],
   },
   {
     role: "Research Associate",
     company: "Qiro Finance",
     period: "Jul 2025 - Mar 2026",
     bullets: [
-      "Owned the full research pipeline; authored technical research reports and managed outreach to bring in new deal flows, most notably Huma Finance.",
-      "Scaled research content: 1,000+ Substack subscribers, 15,000+ Twitter followers for DeFi deep dives.",
-      "Led qualitative/quantitative analysis for Qiro\u2019s mainnet launch; built curated investor funnels to onboard deal flows.",
-      "Conducted on-chain analysis and asset onboarding research for tokenized private credit and RWA integrations.",
+      "Owned the research pipeline end to end: technical reports, outreach, and new deal flow, most notably Huma Finance.",
+      "Grew research distribution to 1,000+ Substack subscribers and 15,000+ Twitter followers.",
+      "Led analysis for Qiro’s mainnet launch and asset onboarding for tokenized private credit and RWAs.",
     ],
   },
   {
-    role: "Founders\u2019 Office",
+    role: "Founders’ Office",
     company: "0xBridge",
     period: "Oct 2024 - May 2025",
     bullets: [
-      "Led GTM strategy for a Web3 Bitcoin protocol, getting into Techstars Class of Web3 2025.",
-      "Led business development and established strategic partnerships with Othentic and Chainsight.",
-      "Developed product marketing pipeline and onboarding content for institutions.",
+      "Led GTM for a Web3 Bitcoin protocol through to Techstars Web3 2025.",
+      "Ran business development; closed partnerships with Othentic and Chainsight.",
     ],
   },
   {
@@ -41,56 +54,128 @@ const experiences = [
     company: "Levitate Labs (VC)",
     period: "Dec 2024 - Feb 2025",
     bullets: [
-      "Authored reports on protocols (KelpDAO, EigenLayer, BitsCrunch); influenced VC diligence and deal flow.",
-      "Analysed Dune dashboards and performed DePIN, RWA, and restaking protocol analysis.",
-      "Contributed to investment memos and market trend forecasting.",
+      "Wrote protocol reports (KelpDAO, EigenLayer, BitsCrunch) that fed into diligence and deal flow.",
+      "Restaking, DePIN and RWA analysis on Dune; contributed to investment memos.",
     ],
   },
   {
     role: "Market Research Intern",
-    company: "CopperX",
+    company: "Kosh Money (formerly CopperX)",
     period: "May 2024 - Jun 2024",
     bullets: [
-      "Deployed campaigns boosting MVP user adoption 250%; authored product onboarding guides reducing friction for Web3 launches.",
+      "Ran campaigns that lifted MVP adoption 250%; wrote onboarding guides for Web3 launches.",
     ],
   },
 ];
 
-const education = [
+type Project = { name: string; status: string; desc: string; href?: string };
+
+const software: Project[] = [
+  { name: "Menso", status: "WIP", desc: "Details soon." },
   {
-    degree: "B.Tech, Computer Science",
-    spec: "Blockchain Specialization",
-    institution: "SRM Institute of Science and Technology, Chennai",
-    period: "2022 - 2026",
-    details: "GPA: 8.0/10",
+    name: "AI Agent for Smart Contract Auditing",
+    status: "In Progress",
+    desc: "LoRA model for contract vulnerability detection, trained on Trail of Bits’ security data.",
+  },
+  {
+    name: "DeFiGrail",
+    status: "Live",
+    href: "https://defigrail.xyz",
+    desc: "Interactive DeFi learning platform: 50+ deep dives, structured tracks, a 70+ term glossary, and playgrounds for AMM math and impermanent loss.",
+  },
+  {
+    name: "Bettr",
+    status: "In Progress",
+    desc: "AI cold-email engine: researches each lead, drafts outreach with Claude, and manages replies through a quota-aware scheduler.",
   },
 ];
 
+const hardware: Project[] = [
+  {
+    name: "Room Climate Optimizer",
+    status: "Built",
+    desc: "DHT22 temperature and humidity sensor feeding an IR program that drives the AC to hold the room at a target temperature.",
+  },
+  {
+    name: "Micro Drone",
+    status: "Building",
+    desc: "ESP32-based quadcopter, built from parts up.",
+  },
+];
+
+const interests = [
+  {
+    title: "Reading",
+    content:
+      "Drawn to existentialism and war history — the questions that don’t have clean answers. Currently reading Against Method by Paul Feyerabend.",
+  },
+  { title: "Learning", content: "Poker theory and cardistry. GPU compute." },
+  { title: "Football", content: "FC Barcelona, nothing else." },
+  {
+    title: "Aviation",
+    content: "The aircraft is an engineering marvel. Have been hooked since I was 8.",
+  },
+  {
+    title: "Betting & Markets",
+    content: "I love risk, quantifying risk, and then taking the said risk.",
+  },
+];
+
+const dash = <span className="text-[var(--color-muted)] mr-2">-</span>;
+
+const projectList = (items: Project[]) => (
+  <div className="pl-4 pt-2 pb-2">
+    {items.map((p) => (
+      <div key={p.name} className="mb-4">
+        <div className="flex items-baseline gap-2 mb-1">
+          {p.href ? (
+            <a
+              href={p.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="min-w-0 underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-foreground)] transition-colors"
+            >
+              {p.name}
+            </a>
+          ) : (
+            <span className="min-w-0">{p.name}</span>
+          )}
+          <span className="flex-1 min-w-4 border-b border-dotted border-[var(--color-muted)] opacity-30 -translate-y-1" />
+          <span className={`text-xs shrink-0 ${p.status === "Live" ? "text-[var(--color-accent)]" : "text-[var(--color-muted)]"}`}>
+            [{p.status}]
+          </span>
+        </div>
+        <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">
+          {dash}
+          {p.desc}
+        </p>
+      </div>
+    ))}
+  </div>
+);
+
+function applyTheme(t: Theme) {
+  const el = document.documentElement;
+  el.dataset.theme = t;
+  el.classList.toggle("dark", t === "dark");
+}
+
 export default function Home() {
-  const [isDark, setIsDark] = useState(false);
-  const [panelOpen, setPanelOpen] = useState(false);
+  const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
-    const saved = localStorage.getItem("theme");
-    if (
-      saved === "dark" ||
-      (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
-      setIsDark(true);
-      document.documentElement.classList.add("dark");
-    }
+    let saved: string | null = null;
+    try { saved = localStorage.getItem("theme"); } catch {}
+    const t: Theme = saved === "cobalt" ? "cobalt" : "dark";
+    setTheme(t);
+    applyTheme(t);
   }, []);
 
+  const nextTheme = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length];
   const toggleTheme = () => {
-    const next = !isDark;
-    setIsDark(next);
-    if (next) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
+    setTheme(nextTheme);
+    applyTheme(nextTheme);
+    try { localStorage.setItem("theme", nextTheme); } catch {}
   };
 
   return (
@@ -98,177 +183,99 @@ export default function Home() {
       <ShootingStars />
       <Navbar
         onToggleTheme={toggleTheme}
-        isDark={isDark}
-        onOpenPanel={() => setPanelOpen(true)}
+        nextTheme={nextTheme}
+        onOpenPanel={() => document.getElementById("beyond-work")?.scrollIntoView({ behavior: "smooth" })}
       />
-      <SidePanel isOpen={panelOpen} onClose={() => setPanelOpen(false)} />
 
-      <div className="relative z-10 max-w-2xl mx-auto px-6 pt-20 pb-16 sm:pt-28 sm:pb-24">
-        {/* Header */}
-        <header className="mb-16 fade-up">
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3 cursor-blink">
-            Siddharth Singh
-          </h1>
-          <p className="text-sm text-[var(--color-muted)] leading-relaxed max-w-lg">
-            Operator at the intersection of venture research, decentralized
-            finance, and getting a startup from 0&rarr;1.
-          </p>
-          <p className="text-xs text-[var(--color-muted)] mt-2 italic opacity-60">
-            tldr &mdash; &quot;research guy&quot;
-          </p>
-
-          <div className="flex flex-wrap gap-4 sm:gap-6 mt-6 text-xs">
-            <a
-              href="mailto:siddharth77work@gmail.com"
-              className="text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition-colors underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-foreground)]"
-            >
-              email
-            </a>
-            <a
-              href="https://twitter.com/s7ddharth"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition-colors underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-foreground)]"
-            >
-              twitter
-            </a>
-            <a
-              href="https://www.linkedin.com/in/siddharth-singh-aa9453260/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition-colors underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-foreground)]"
-            >
-              linkedin
-            </a>
-            <a
-              href="https://substack.com/@s1ddharths1ngh"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition-colors underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-foreground)]"
-            >
-              substack
-            </a>
-            <a
-              href="https://medium.com/@siddharth77work"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition-colors underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-foreground)]"
-            >
-              medium
-            </a>
-          </div>
-        </header>
-
-        <hr className="hr-styled" />
-
-        {/* Experience */}
-        <Section title="Experience" delay={1}>
-          {experiences.map((exp, i) => (
-            <ExperienceCard key={i} {...exp} />
-          ))}
-        </Section>
-
-        <hr className="hr-styled" />
-
-        {/* Project */}
-        <Section title="Projects" delay={2}>
-          <div className="mb-6">
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-2">
-              <span className="font-bold">
-                AI Agent for Smart Contract Auditing
-              </span>
-              <span className="text-xs text-[var(--color-muted)] mt-1 sm:mt-0">
-                In Progress
-              </span>
-            </div>
-            <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed pl-4">
-              <span className="text-[var(--color-muted)] mr-2">-</span>
-              Trained LoRA model for contract vulnerability detection, trained
-              on Trail of Bits&apos; security data.
+      <div className="relative z-10 max-w-6xl mx-auto lg:grid lg:grid-cols-[minmax(300px,360px)_1fr]">
+        {/* Ledger sidebar */}
+        <aside className="fade-up px-6 pt-20 pb-10 lg:sticky lg:top-0 lg:h-screen lg:pt-20 lg:pb-8 lg:px-8 lg:border-r border-[var(--color-border)] flex flex-col gap-6 lg:overflow-y-auto">
+          <AsciiJoker />
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight mb-3 cursor-blink">
+              Siddharth Singh
+            </h1>
+            <p className="text-sm text-[var(--color-muted)] leading-relaxed">
+              At the core of all progress is instinct &mdash; something we&apos;re
+              all born with and most of us learn to second-guess. As a student of
+              the game, I trust mine.
+            </p>
+            <p className="text-xs text-[var(--color-muted)] mt-2 italic opacity-60">
+              tldr &mdash; &quot;research guy&quot;
             </p>
           </div>
-
-          <div className="mb-6">
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-2">
+          <nav className="flex flex-wrap gap-x-5 gap-y-1 lg:flex-col text-xs lg:mt-auto">
+            {links.map(([label, href]) => (
               <a
-                href="https://defigrail.xyz"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-bold underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-foreground)] transition-colors"
+                key={label}
+                href={href}
+                {...(href.startsWith("http") && { target: "_blank", rel: "noopener noreferrer" })}
+                className="text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition-colors"
               >
-                DeFiGrail
+                <span className="text-[var(--color-accent)]">&rarr; </span>
+                {label}
               </a>
-              <span className="text-xs text-[var(--color-muted)] mt-1 sm:mt-0">
-                Live
-              </span>
-            </div>
-            <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed pl-4">
-              <span className="text-[var(--color-muted)] mr-2">-</span>
-              Interactive DeFi learning platform &mdash; 50+ deep-dive topics,
-              structured tracks, a 70+ term glossary, and hands-on playgrounds
-              for AMM math and impermanent loss. Built with Next.js and Neon.
+            ))}
+          </nav>
+        </aside>
+
+        {/* Ledger main */}
+        <div className="min-w-0 px-6 pb-16 lg:px-12 lg:pt-28">
+          <Section title="Experience" delay={1}>
+            {experiences.map((e) => (
+              <Collapsible key={e.company} title={e.company} sub={e.role} meta={e.period}>
+                <ul className="space-y-1.5 pl-4 pt-1 pb-3">
+                  {e.bullets.map((b) => (
+                    <li key={b} className="text-sm text-[var(--color-text-secondary)] leading-relaxed">
+                      {dash}
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+              </Collapsible>
+            ))}
+          </Section>
+
+          <Section title="Projects" delay={2}>
+            <Collapsible title="Software" meta={`${software.length} projects`}>
+              {projectList(software)}
+            </Collapsible>
+            <Collapsible title="Hardware" meta={`${hardware.length} projects`}>
+              {projectList(hardware)}
+            </Collapsible>
+          </Section>
+
+          <Section title="Beyond Work" delay={3} id="beyond-work">
+            <p className="text-sm text-[var(--color-muted)] mb-4 leading-relaxed">
+              There&apos;s a lot more to me than making money, have a look.
             </p>
-          </div>
-
-          <div className="mb-6">
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-2">
-              <span className="font-bold">Bettr</span>
-              <span className="text-xs text-[var(--color-muted)] mt-1 sm:mt-0">
-                In Progress
-              </span>
+            {interests.map((i) => (
+              <Collapsible key={i.title} title={`// ${i.title}`}>
+                <p className="text-sm text-[var(--color-text-secondary)] pl-4 pt-1 pb-3 leading-relaxed">
+                  {i.content}
+                </p>
+              </Collapsible>
+            ))}
+            <div className="mt-8 text-xs text-[var(--color-muted)] italic leading-relaxed">
+              <p>&quot;karmanye vadhikaraste ma phaleshu kadachana&quot;</p>
+              <p className="mt-1">You have the right to work only, but never to its fruits.</p>
+              <p className="mt-2 not-italic opacity-50">&mdash; Bhagavad Gita, Chapter 2, Verse 47</p>
             </div>
-            <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed pl-4">
-              <span className="text-[var(--color-muted)] mr-2">-</span>
-              AI cold-email engine &mdash; researches each lead, drafts
-              personalised outreach with Claude, and auto-manages replies
-              through a quota-aware sending scheduler.
-            </p>
-          </div>
-        </Section>
+          </Section>
 
-        <hr className="hr-styled" />
-
-        {/* Skills */}
-        <Section title="Tools & Skills" delay={3}>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm">
-            <div>
-              <h3 className="text-xs font-bold text-[var(--color-muted)] mb-2 tracking-wider">
-                LANGUAGES
-              </h3>
-              <p className="text-[var(--color-text-secondary)]">Python, Solidity</p>
-            </div>
-            <div>
-              <h3 className="text-xs font-bold text-[var(--color-muted)] mb-2 tracking-wider">
-                TOOLS
-              </h3>
-              <p className="text-[var(--color-text-secondary)]">
-                Foundry, Dune Analytics, Nansen, Figma, MySQL, MongoDB
-              </p>
-            </div>
-            <div>
-              <h3 className="text-xs font-bold text-[var(--color-muted)] mb-2 tracking-wider">
-                DOMAINS
-              </h3>
-              <p className="text-[var(--color-text-secondary)]">
-                Smart Contract Auditing, ML for Trading, Tokenomics
-              </p>
-            </div>
-          </div>
-        </Section>
-
-        <hr className="hr-styled" />
-
-        {/* Education */}
-        <Section title="Education" delay={4}>
-          {education.map((edu, i) => (
-            <EducationCard key={i} {...edu} />
-          ))}
-        </Section>
-
-        {/* Footer */}
-        <footer className="mt-16 pt-8 border-t border-[var(--color-border)] text-xs text-[var(--color-muted)]">
-          <span>&copy; {new Date().getFullYear()} Siddharth Singh</span>
-        </footer>
+          <footer className="pt-8 border-t border-[var(--color-border)] text-xs text-[var(--color-muted)] flex flex-col sm:flex-row sm:justify-between gap-2">
+            <span>
+              contact &rarr;{" "}
+              <a
+                href={`mailto:${EMAIL}`}
+                className="text-[var(--color-foreground)] underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-accent)] transition-colors"
+              >
+                {EMAIL}
+              </a>
+            </span>
+            <span>&copy; {new Date().getFullYear()} Siddharth Singh</span>
+          </footer>
+        </div>
       </div>
     </main>
   );

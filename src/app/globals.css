@@ -25,6 +25,9 @@
   --color-star: 0,0,0;
   --color-grid: rgba(0,0,0,0.012);
   --color-scrollbar: #ccc;
+  --color-accent: #111111;
+  --ascii-a: rgba(0,0,0,0.16);
+  --ascii-b: rgba(0,0,0,0.16);
 }
 
 /* Dark mode */
@@ -40,7 +43,29 @@
   --color-star: 255,255,255;
   --color-grid: rgba(255,255,255,0.02);
   --color-scrollbar: #333;
+  --color-accent: #e5e5e5;
+  --ascii-a: rgba(255,255,255,0.14);
+  --ascii-b: rgba(255,255,255,0.14);
 }
+
+/* Paper & cobalt */
+:root[data-theme="cobalt"] {
+  --color-background: #f6f5f1;
+  --color-foreground: #141414;
+  --color-muted: #77746c;
+  --color-border: #dcd9d0;
+  --color-text-secondary: #3a3935;
+  --color-backdrop: rgba(20,20,20,0.2);
+  --color-selection-bg: #2b3fd6;
+  --color-selection-fg: #f6f5f1;
+  --color-star: 43,63,214;
+  --color-grid: rgba(43,63,214,0.035);
+  --color-scrollbar: #c9c6bd;
+  --color-accent: #2b3fd6;
+  --ascii-a: rgba(43,63,214,0.28);
+  --ascii-b: rgba(43,63,214,0.28);
+}
+
 
 body {
   background: var(--color-background);
@@ -117,7 +142,7 @@ body {
   transition: max-height 0.3s ease-in-out;
 }
 .accordion-content.open {
-  max-height: 500px;
+  max-height: 2000px;
 }
 
 /* Noise texture overlay */

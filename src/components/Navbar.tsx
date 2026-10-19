@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 
 export default function Navbar({
   onToggleTheme,
-  isDark,
+  nextTheme,
   onOpenPanel,
 }: {
   onToggleTheme: () => void;
-  isDark: boolean;
+  nextTheme: string;
   onOpenPanel: () => void;
 }) {
   const [scrolled, setScrolled] = useState(false);
@@ -32,9 +32,9 @@ export default function Navbar({
       <button
         onClick={onToggleTheme}
         className="text-sm tracking-wider hover:opacity-60 transition-opacity cursor-pointer"
-        aria-label="Toggle dark mode"
+        aria-label={`Switch to ${nextTheme} theme`}
       >
-        {isDark ? "[ light ]" : "[ dark ]"}
+        [ {nextTheme} ]
       </button>
 
       <button
