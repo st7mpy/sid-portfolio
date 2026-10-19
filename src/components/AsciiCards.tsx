@@ -110,16 +110,8 @@ const CARDS: Card[] = [
 ];
 
 function face(c: Card): string[] {
+  // Corner indices are drawn separately at a larger size (see drawCorners).
   const g = Array.from({ length: H }, () => Array(W).fill(" "));
-  if (c.rank.length > 1) {
-    c.rank.split("").forEach((ch, i) => {
-      g[1 + i][1] = ch;
-      g[H - 2 - i][W - 2] = ch;
-    });
-  } else {
-    g[1][1] = g[H - 2][W - 2] = c.rank;
-    g[2][1] = g[H - 3][W - 2] = c.suit;
-  }
   const bw = Math.max(...c.art.map((l) => l.length));
   const ox = Math.floor((W - bw) / 2);
   const oy = Math.floor((H - c.art.length) / 2);
@@ -144,7 +136,9 @@ export default function AsciiCards() {
     if (!canvas || !ctx) return;
 
     const faces = CARDS.map(face);
-    const font = `9px ${getComputedStyle(document.body).fontFamily}`;
+    const family = getComputedStyle(document.body).fontFamily;
+    const font = `9px ${family}`;
+    const BIG = 15; // px, corner rank/suit size
     ctx.font = font;
     const cw = ctx.measureText("M").width, ch = 10;
     const aspect = ch / cw;
@@ -212,6 +206,28 @@ export default function AsciiCards() {
             ctx!.fillText(c, x * cw, y * ch);
           }
         }
+
+      // Big corner indices: top-left upright, bottom-right rotated like a real card.
+      // Each corner shows whichever card the ripple has reached there; hidden while the wave front passes.
+      ctx!.font = `bold ${BIG}px ${family}`;
+      ctx!.textAlign = "center";
+      for (const [cx, cy, rot] of [[1, 1, 0], [CW - 2, CH - 2, Math.PI]] as const) {
+        const th = dealing ? thr[cy][cx] : 1;
+        if (dealing && Math.abs(th - p) < BAND) continue;
+        const card = CARDS[th < p ? next : cur];
+        const lines = card.rank.length > 1 ? card.rank.split("") : [card.rank, card.suit];
+        const step = card.rank.length > 1 ? BIG - 2 : BIG + 1;
+        ctx!.save();
+        ctx!.translate(cx * cw + cw / 2, cy * ch + (rot ? ch : 0));
+        ctx!.rotate(rot);
+        lines.forEach((l, i) => {
+          ctx!.fillStyle = card.suit && i === 1 ? colors[2] : grad;
+          ctx!.fillText(l, cw / 2, i * step);
+        });
+        ctx!.restore();
+      }
+      ctx!.textAlign = "start";
+      ctx!.font = font;
       frame++;
     }
 
