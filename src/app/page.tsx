@@ -3,7 +3,7 @@
 import Section from "@/components/Section";
 import Collapsible from "@/components/Collapsible";
 import ShootingStars from "@/components/PixelStoic";
-import AsciiJoker from "@/components/AsciiJoker";
+import AsciiCards from "@/components/AsciiCards";
 import Navbar from "@/components/Navbar";
 
 const EMAIL = "siddharth77work@gmail.com";
@@ -178,7 +178,7 @@ export default function Home() {
             </nav>
           </div>
           <figure className="flex flex-col gap-4 lg:mt-4">
-            <AsciiJoker />
+            <AsciiCards />
             <figcaption className="text-sm text-[var(--color-muted)] leading-relaxed">
               At the core of all progress is instinct &mdash; something we&apos;re
               all born with and most of us learn to second-guess. As a student of

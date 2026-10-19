@@ -28,6 +28,7 @@
   --color-accent: #111111;
   --ascii-a: rgba(0,0,0,0.16);
   --ascii-b: rgba(0,0,0,0.16);
+  --ascii-hi: rgba(0,0,0,0.6);
 }
 
 /* Dark mode */
@@ -46,6 +47,7 @@
   --color-accent: #e5e5e5;
   --ascii-a: rgba(255,255,255,0.14);
   --ascii-b: rgba(255,255,255,0.14);
+  --ascii-hi: rgba(255,255,255,0.75);
 }
 
 /* Paper & cobalt */
@@ -64,6 +66,7 @@
   --color-accent: #2b3fd6;
   --ascii-a: rgba(43,63,214,0.28);
   --ascii-b: rgba(43,63,214,0.28);
+  --ascii-hi: #2b3fd6;
 }
 
 
