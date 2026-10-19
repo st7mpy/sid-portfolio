@@ -1,35 +1,5 @@
 @import "tailwindcss";
 
-@theme inline {
-  --color-background: #fafafa;
-  --color-foreground: #111111;
-  --color-muted: #666666;
-  --color-border: #e5e5e5;
-  --color-accent: #000000;
-  --color-text-secondary: #444444;
-  --color-backdrop: rgba(0,0,0,0.2);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-courier-prime);
-}
-
-/* Light mode (default) */
-:root {
-  --color-background: #fafafa;
-  --color-foreground: #111111;
-  --color-muted: #666666;
-  --color-border: #e5e5e5;
-  --color-text-secondary: #444444;
-  --color-backdrop: rgba(0,0,0,0.2);
-  --color-selection-bg: #111;
-  --color-selection-fg: #fafafa;
-  --color-star: 0,0,0;
-  --color-grid: rgba(0,0,0,0.012);
-  --color-scrollbar: #ccc;
-  --color-accent: #111111;
-  --ascii-a: rgba(0,0,0,0.16);
-  --ascii-hi: rgba(0,0,0,0.6);
-}
-
 /* Dark mode */
 :root.dark {
   --color-background: #0a0a0a;
@@ -37,7 +7,6 @@
   --color-muted: #888888;
   --color-border: #222222;
   --color-text-secondary: #aaaaaa;
-  --color-backdrop: rgba(0,0,0,0.5);
   --color-selection-bg: #e5e5e5;
   --color-selection-fg: #0a0a0a;
   --color-star: 255,255,255;
@@ -55,7 +24,6 @@
   --color-muted: #77746c;
   --color-border: #dcd9d0;
   --color-text-secondary: #3a3935;
-  --color-backdrop: rgba(20,20,20,0.2);
   --color-selection-bg: #2b3fd6;
   --color-selection-fg: #f6f5f1;
   --color-star: 43,63,214;
@@ -70,7 +38,7 @@
 body {
   background: var(--color-background);
   color: var(--color-foreground);
-  font-family: var(--font-mono), "Courier New", monospace;
+  font-family: var(--font-courier-prime), "Courier New", monospace;
 }
 
 /* Theme switch: one GPU crossfade of the whole page instead of per-element transitions */
@@ -133,17 +101,6 @@ body {
 .fade-up-delay-1 { animation-delay: 0.1s; }
 .fade-up-delay-2 { animation-delay: 0.2s; }
 .fade-up-delay-3 { animation-delay: 0.3s; }
-.fade-up-delay-4 { animation-delay: 0.4s; }
-.fade-up-delay-5 { animation-delay: 0.5s; }
-
-/* Side panel */
-.side-panel {
-  transform: translateX(100%);
-  transition: transform 0.3s ease-in-out;
-}
-.side-panel.open {
-  transform: translateX(0);
-}
 
 /* Accordion */
 .accordion-content {
@@ -167,13 +124,6 @@ body {
   opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   z-index: 50;
-}
-
-/* Horizontal rule style */
-.hr-styled {
-  border: none;
-  border-top: 1px solid var(--color-border);
-  margin: 2rem 0;
 }
 
 /* Background grid as a static CSS layer (the canvas above only draws stars) */

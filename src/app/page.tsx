@@ -1,5 +1,3 @@
-"use client";
-
 import Section from "@/components/Section";
 import Collapsible from "@/components/Collapsible";
 import ShootingStars from "@/components/PixelStoic";

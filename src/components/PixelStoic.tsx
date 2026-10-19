@@ -62,17 +62,16 @@ export default function ShootingStars() {
     }
 
     // Read theme color once, refresh only when the theme changes.
-    let star = "";
+    let starRgb = "";
     const readColors = () => {
-      star = getComputedStyle(document.documentElement).getPropertyValue("--color-star").trim();
+      starRgb = getComputedStyle(document.documentElement).getPropertyValue("--color-star").trim();
     };
     readColors();
     const themeObserver = new MutationObserver(readColors);
     themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class"] });
-    const getStarColor = () => star;
     function drawStar(star: Star) {
       if (!ctx) return;
-      const rgb = getStarColor();
+      const rgb = starRgb;
       const progress = star.life / star.maxLife;
       let alpha = star.opacity;
       if (progress < 0.2) alpha *= progress / 0.2;

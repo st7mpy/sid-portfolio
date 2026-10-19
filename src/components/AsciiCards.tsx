@@ -121,8 +121,6 @@ function face(c: Card): string[] {
 }
 
 const CW = W + 2, CH = H + 2; // card incl. border
-const COLS = CW;
-const ROWS = CH;
 const GLITCH = "01#%*+=";
 const DEAL = 1.8; // seconds for the ripple to cross the card
 const BAND = 0.07; // width of the scrambled wave front
@@ -144,10 +142,10 @@ export default function AsciiCards() {
     const cw = ctx.measureText("M").width, ch = 10;
     const aspect = ch / cw;
     const dpr = window.devicePixelRatio || 1;
-    canvas.width = COLS * cw * dpr;
-    canvas.height = ROWS * ch * dpr;
-    canvas.style.width = `${COLS * cw}px`;
-    canvas.style.height = `${ROWS * ch}px`;
+    canvas.width = CW * cw * dpr;
+    canvas.height = CH * ch * dpr;
+    canvas.style.width = `${CW * cw}px`;
+    canvas.style.height = `${CH * ch}px`;
     ctx.font = font; // resizing the canvas reset the context state
     ctx.textBaseline = "top";
 
@@ -199,14 +197,14 @@ export default function AsciiCards() {
       const p = dealing ? (t - phaseStart) / DEAL : 0;
 
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx!.clearRect(0, 0, COLS * cw, ROWS * ch);
+      ctx!.clearRect(0, 0, CW * cw, CH * ch);
 
       // One fillText per row (monospace keeps columns aligned); lit wave-front cells drawn on top.
       const lit: [number, number, string][] = [];
       ctx!.fillStyle = colors[0];
-      for (let y = 0; y < ROWS; y++) {
+      for (let y = 0; y < CH; y++) {
         let row = "";
-        for (let x = 0; x < COLS; x++) {
+        for (let x = 0; x < CW; x++) {
           const th = dealing ? thr[y][x] : 1;
           if (dealing && Math.abs(th - p) < BAND) {
             const n = (x * 7 + y * 13 + frame) % 23;
