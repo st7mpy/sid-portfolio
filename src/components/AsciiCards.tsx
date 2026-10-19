@@ -128,24 +128,9 @@ function face(c: Card): string[] {
   return ["." + "-".repeat(W) + ".", ...rows, "'" + "-".repeat(W) + "'"];
 }
 
-// Spinning poker chip: striped rim, rings, center pip.
-function chip(dx: number, dy: number, t: number, spin: number): string | null {
-  const d = dx * dx + dy * dy;
-  if (d > 1) return null;
-  if (d > 0.62) return Math.floor((Math.atan2(dy, dx) + t * spin) / (Math.PI / 6) + 120) % 2 ? "#" : "=";
-  if (d > 0.45) return "-";
-  if (d > 0.08) return ".";
-  return "o";
-}
-
-const CHIPS = [
-  { cx: 6, cy: H + 7, rx: 6.5, ry: 2.6, spin: 0.6 },
-  { cx: W - 4, cy: H + 9, rx: 6.5, ry: 2.6, spin: -0.45 },
-  { cx: W - 4, cy: H + 7, rx: 6.5, ry: 2.6, spin: -0.45 },
-];
 const CW = W + 2, CH = H + 2; // card incl. border
-const COLS = W + 6;
-const ROWS = H + 13;
+const COLS = CW;
+const ROWS = CH;
 const GLITCH = "01#%*+=";
 const DEAL = 1.8; // seconds for the ripple to cross the card
 const BAND = 0.07; // width of the scrambled wave front
@@ -206,26 +191,23 @@ export default function AsciiCards() {
 
       for (let y = 0; y < ROWS; y++)
         for (let x = 0; x < COLS; x++) {
-          let c: string | null = null;
-          for (const k of CHIPS) c = chip((x - k.cx) / k.rx, (y - k.cy) / k.ry, reduce ? 0 : t, k.spin) ?? c;
+          let c: string;
           let hi = false;
-          if (y < CH && x < CW) {
-            const th = dealing ? thr[y][x] : 1;
-            if (dealing && Math.abs(th - p) < BAND) {
-              const n = (x * 7 + y * 13 + frame) % 23;
-              c = GLITCH[n % GLITCH.length];
-              hi = n < 3; // a few lit cells ride the wave front
-            } else {
-              c = faces[th < p ? next : cur][y][x];
-            }
+          const th = dealing ? thr[y][x] : 1;
+          if (dealing && Math.abs(th - p) < BAND) {
+            const n = (x * 7 + y * 13 + frame) % 23;
+            c = GLITCH[n % GLITCH.length];
+            hi = n < 3; // a few lit cells ride the wave front
+          } else {
+            c = faces[th < p ? next : cur][y][x];
           }
           if (hi) {
             ctx!.fillStyle = colors[2];
             ctx!.globalAlpha = 0.35;
             ctx!.fillRect(x * cw, y * ch, cw, ch);
             ctx!.globalAlpha = 1;
-            ctx!.fillText(c!, x * cw, y * ch);
-          } else if (c && c !== " ") {
+            ctx!.fillText(c, x * cw, y * ch);
+          } else if (c !== " ") {
             ctx!.fillStyle = grad;
             ctx!.fillText(c, x * cw, y * ch);
           }
