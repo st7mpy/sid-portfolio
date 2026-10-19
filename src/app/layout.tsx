@@ -26,7 +26,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${courierPrime.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      data-theme="dark"
+      className={`${courierPrime.variable} dark h-full antialiased`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/* Apply saved theme before first paint so there's no flash. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem("theme")==="cobalt"?"cobalt":"dark",e=document.documentElement;e.dataset.theme=t;e.classList.toggle("dark",t==="dark")}catch(_){}`,
+          }}
+        />
+      </head>
       <body className="noise min-h-full flex flex-col">{children}</body>
     </html>
   );

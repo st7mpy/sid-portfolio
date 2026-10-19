@@ -61,10 +61,18 @@ export default function ShootingStars() {
       stars.push(s);
     }
 
-    const cssVar = (name: string) =>
-      getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-    const getStarColor = () => cssVar("--color-star");
-    const getGridColor = () => cssVar("--color-grid");
+    // Read theme colors once, refresh only when the theme changes.
+    let star = "", grid = "";
+    const readColors = () => {
+      const s = getComputedStyle(document.documentElement);
+      star = s.getPropertyValue("--color-star").trim();
+      grid = s.getPropertyValue("--color-grid").trim();
+    };
+    readColors();
+    const themeObserver = new MutationObserver(readColors);
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class"] });
+    const getStarColor = () => star;
+    const getGridColor = () => grid;
 
     function drawGrid() {
       if (!ctx) return;
@@ -146,7 +154,10 @@ export default function ShootingStars() {
     };
 
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      themeObserver.disconnect();
+    };
   }, []);
 
   return (

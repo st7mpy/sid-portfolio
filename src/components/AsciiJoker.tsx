@@ -92,6 +92,15 @@ export default function AsciiJoker() {
     canvas.style.width = `${COLS * cw}px`;
     canvas.style.height = `${ROWS * ch}px`;
 
+    let colors = ["#888", "#888"];
+    const readColors = () => {
+      const css = getComputedStyle(document.documentElement);
+      colors = ["--ascii-a", "--ascii-b"].map((v) => css.getPropertyValue(v).trim() || "#888");
+      if (reduce) draw(performance.now());
+    };
+    const themeObserver = new MutationObserver(readColors);
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class"] });
+
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let shown = 0, phaseStart = performance.now() / 1000, flipping = false, raf = 0, last = 0, frame = 0;
 
@@ -105,10 +114,9 @@ export default function AsciiJoker() {
       const p = flipping ? (t - phaseStart) / FLIP : 0;
       const from = faces[shown], to = faces[1 - shown];
 
-      const css = getComputedStyle(document.documentElement);
       const grad = ctx!.createLinearGradient(0, 0, COLS * cw, ROWS * ch);
-      grad.addColorStop(0, css.getPropertyValue("--ascii-a").trim() || "#888");
-      grad.addColorStop(1, css.getPropertyValue("--ascii-b").trim() || "#888");
+      grad.addColorStop(0, colors[0]);
+      grad.addColorStop(1, colors[1]);
 
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx!.clearRect(0, 0, COLS * cw, ROWS * ch);
@@ -135,9 +143,13 @@ export default function AsciiJoker() {
       if (now - last > 80) { draw(now); last = now; }
       raf = requestAnimationFrame(loop);
     }
+    readColors();
     if (reduce) draw(performance.now());
     else raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      themeObserver.disconnect();
+    };
   }, []);
 
   return (

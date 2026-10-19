@@ -1,45 +1,34 @@
 "use client";
 
-import { useEffect, useState } from "react";
+// Theme lives on <html data-theme>, set before paint by the script in layout.tsx.
+// The button label is picked by CSS, so nothing re-renders on switch.
+function toggleTheme() {
+  const el = document.documentElement;
+  const next = el.dataset.theme === "cobalt" ? "dark" : "cobalt";
+  const apply = () => {
+    el.dataset.theme = next;
+    el.classList.toggle("dark", next === "dark");
+  };
+  try { localStorage.setItem("theme", next); } catch {}
+  if ("startViewTransition" in document && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.startViewTransition(apply);
+  } else {
+    apply();
+  }
+}
 
-export default function Navbar({
-  onToggleTheme,
-  nextTheme,
-  onOpenPanel,
-}: {
-  onToggleTheme: () => void;
-  nextTheme: string;
-  onOpenPanel: () => void;
-}) {
-  const [scrolled, setScrolled] = useState(false);
+const btn = "px-2 py-1 text-sm tracking-wider hover:opacity-60 transition-opacity cursor-pointer bg-[var(--color-background)]/70 backdrop-blur-sm";
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
+export default function Navbar() {
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-40 flex justify-between items-center px-6 py-4 transition-all duration-300 ${
-        scrolled
-          ? "bg-[var(--color-background)]/80 backdrop-blur-md shadow-[0_1px_0_var(--color-border)]"
-          : "bg-transparent"
-      }`}
-    >
-      <button
-        onClick={onToggleTheme}
-        className="text-sm tracking-wider hover:opacity-60 transition-opacity cursor-pointer"
-        aria-label={`Switch to ${nextTheme} theme`}
-      >
-        [ {nextTheme} ]
+    <nav className="fixed top-3 right-3 z-40 flex gap-2">
+      <button onClick={toggleTheme} className={btn} aria-label="Toggle theme">
+        <span className="theme-label-to-cobalt">[ cobalt ]</span>
+        <span className="theme-label-to-dark">[ dark ]</span>
       </button>
-
       <button
-        onClick={onOpenPanel}
-        className="text-sm tracking-wider hover:opacity-60 transition-opacity cursor-pointer"
+        onClick={() => document.getElementById("beyond-work")?.scrollIntoView({ behavior: "smooth" })}
+        className={btn}
       >
         [ beyond work ]
       </button>

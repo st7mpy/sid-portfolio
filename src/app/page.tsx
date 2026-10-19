@@ -1,14 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Section from "@/components/Section";
 import Collapsible from "@/components/Collapsible";
 import ShootingStars from "@/components/PixelStoic";
 import AsciiJoker from "@/components/AsciiJoker";
 import Navbar from "@/components/Navbar";
-
-const THEMES = ["dark", "cobalt"] as const;
-type Theme = (typeof THEMES)[number];
 
 const EMAIL = "siddharth77work@gmail.com";
 
@@ -154,73 +150,45 @@ const projectList = (items: Project[]) => (
   </div>
 );
 
-function applyTheme(t: Theme) {
-  const el = document.documentElement;
-  el.dataset.theme = t;
-  el.classList.toggle("dark", t === "dark");
-}
-
 export default function Home() {
-  const [theme, setTheme] = useState<Theme>("dark");
-
-  useEffect(() => {
-    let saved: string | null = null;
-    try { saved = localStorage.getItem("theme"); } catch {}
-    const t: Theme = saved === "cobalt" ? "cobalt" : "dark";
-    setTheme(t);
-    applyTheme(t);
-  }, []);
-
-  const nextTheme = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length];
-  const toggleTheme = () => {
-    setTheme(nextTheme);
-    applyTheme(nextTheme);
-    try { localStorage.setItem("theme", nextTheme); } catch {}
-  };
-
   return (
     <main className="relative min-h-screen">
       <ShootingStars />
-      <Navbar
-        onToggleTheme={toggleTheme}
-        nextTheme={nextTheme}
-        onOpenPanel={() => document.getElementById("beyond-work")?.scrollIntoView({ behavior: "smooth" })}
-      />
+      <Navbar />
 
       <div className="relative z-10 max-w-6xl mx-auto lg:grid lg:grid-cols-[minmax(300px,360px)_1fr]">
         {/* Ledger sidebar */}
-        <aside className="fade-up px-6 pt-20 pb-10 lg:sticky lg:top-0 lg:h-screen lg:pt-20 lg:pb-8 lg:px-8 lg:border-r border-[var(--color-border)] flex flex-col gap-6 lg:overflow-y-auto">
-          <AsciiJoker />
+        <aside className="fade-up px-6 pt-16 pb-10 lg:sticky lg:top-0 lg:h-screen lg:pt-8 lg:pb-8 lg:px-8 lg:border-r border-[var(--color-border)] flex flex-col gap-6 lg:overflow-y-auto">
           <div>
             <h1 className="text-2xl font-bold tracking-tight mb-3 cursor-blink">
               Siddharth Singh
             </h1>
-            <p className="text-sm text-[var(--color-muted)] leading-relaxed">
+            <nav className="flex flex-wrap gap-x-4 gap-y-1 text-xs">
+              {links.map(([label, href]) => (
+                <a
+                  key={label}
+                  href={href}
+                  {...(href.startsWith("http") && { target: "_blank", rel: "noopener noreferrer" })}
+                  className="text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition-colors"
+                >
+                  <span className="text-[var(--color-accent)]">&rarr; </span>
+                  {label}
+                </a>
+              ))}
+            </nav>
+          </div>
+          <figure className="flex flex-col gap-4 lg:mt-4">
+            <AsciiJoker />
+            <figcaption className="text-sm text-[var(--color-muted)] leading-relaxed">
               At the core of all progress is instinct &mdash; something we&apos;re
               all born with and most of us learn to second-guess. As a student of
               the game, I trust mine.
-            </p>
-            <p className="text-xs text-[var(--color-muted)] mt-2 italic opacity-60">
-              tldr &mdash; &quot;research guy&quot;
-            </p>
-          </div>
-          <nav className="flex flex-wrap gap-x-5 gap-y-1 lg:flex-col text-xs lg:mt-auto">
-            {links.map(([label, href]) => (
-              <a
-                key={label}
-                href={href}
-                {...(href.startsWith("http") && { target: "_blank", rel: "noopener noreferrer" })}
-                className="text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition-colors"
-              >
-                <span className="text-[var(--color-accent)]">&rarr; </span>
-                {label}
-              </a>
-            ))}
-          </nav>
+            </figcaption>
+          </figure>
         </aside>
 
         {/* Ledger main */}
-        <div className="min-w-0 px-6 pb-16 lg:px-12 lg:pt-28">
+        <div className="min-w-0 px-6 pb-16 lg:px-12 lg:pt-16">
           <Section title="Experience" delay={1}>
             {experiences.map((e) => (
               <Collapsible key={e.company} title={e.company} sub={e.role} meta={e.period}>

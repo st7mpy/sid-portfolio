@@ -71,7 +71,17 @@ body {
   background: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-mono), "Courier New", monospace;
-  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Theme switch: one GPU crossfade of the whole page instead of per-element transitions */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.35s;
+  animation-timing-function: ease;
+}
+:root[data-theme="cobalt"] .theme-label-to-cobalt,
+:root:not([data-theme="cobalt"]) .theme-label-to-dark {
+  display: none;
 }
 
 /* Scrollbar */
