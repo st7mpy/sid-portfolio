@@ -19,7 +19,17 @@ const links = [
 const experiences = [
   {
     role: "Research Intern · currently working",
-    company: "IOSG / IOSF",
+    company: (
+      <>
+        <a href="https://iosg.vc" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-foreground)] transition-colors">
+          IOSG Ventures
+        </a>
+        {" / "}
+        <a href="https://iosf.vc" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-foreground)] transition-colors">
+          IOSF
+        </a>
+      </>
+    ),
     period: "Aug 2026 - Present",
     bullets: [
       "Helping deploy capital into the technologies shaping the frontier.",
@@ -191,7 +201,7 @@ export default function Home() {
         <div className="min-w-0 px-6 pb-16 lg:px-12 lg:pt-16">
           <Section title="Experience" delay={1}>
             {experiences.map((e) => (
-              <Collapsible key={e.company} title={e.company} sub={e.role} meta={e.period}>
+              <Collapsible key={e.period} title={e.company} sub={e.role} meta={e.period}>
                 <ul className="space-y-1.5 pl-4 pt-1 pb-3">
                   {e.bullets.map((b) => (
                     <li key={b} className="text-sm text-[var(--color-text-secondary)] leading-relaxed">
