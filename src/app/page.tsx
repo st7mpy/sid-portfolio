@@ -39,7 +39,7 @@ const experiences = [
     company: "Qiro Finance",
     period: "Jul 2025 - Mar 2026",
     bullets: [
-      "Owned the research pipeline end to end: technical reports, outreach, and new deal flow, most notably Huma Finance.",
+      "Owned the research pipeline end to end: technical reports, outreach, and new deal flow.",
       "Grew research distribution to 1,000+ Substack subscribers and 15,000+ Twitter followers.",
       "Led analysis for Qiro’s mainnet launch and asset onboarding for tokenized private credit and RWAs.",
     ],
