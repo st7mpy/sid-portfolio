@@ -67,7 +67,7 @@ const experiences = [
     company: "Kosh Money (formerly CopperX)",
     period: "May 2024 - Jun 2024",
     bullets: [
-      "Ran campaigns that lifted MVP adoption 250%; wrote onboarding guides for Web3 launches.",
+      "Ran MVP adoption campaigns and wrote onboarding guides for Web3 launches.",
     ],
   },
 ];
