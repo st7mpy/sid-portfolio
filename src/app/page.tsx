@@ -111,7 +111,7 @@ const interests = [
   {
     title: "Reading",
     content:
-      "Drawn to existentialism and war history — the questions that don’t have clean answers. Currently reading Against Method by Paul Feyerabend.",
+      "Any form of literature puts you in situations you would never otherwise be in. I owe my knowledge base to my love of reading. Currently reading Against Method by Paul Feyerabend.",
   },
   { title: "Learning", content: "Poker theory and cardistry. GPU compute." },
   { title: "Football", content: "FC Barcelona, nothing else." },
